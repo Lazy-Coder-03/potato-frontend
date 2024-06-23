@@ -15,7 +15,6 @@ import image from "./bg.png";
 import { DropzoneArea } from 'material-ui-dropzone';
 import axios from "axios";
 
-
 export { ImageUpload };
 
 const useStyles = makeStyles((theme) => ({
@@ -125,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white'
   },
 }));
+
 const ImageUpload = () => {
   const classes = useStyles();
   const [selectedFile, setSelectedFile] = useState();
@@ -133,20 +133,45 @@ const ImageUpload = () => {
   const [image, setImage] = useState(false);
   let confidence = 0;
 
-  const sendFile = async () => {
+  const cropAndResizeImage = (file, callback) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const size = Math.min(img.width, img.height);
+        const offsetX = (img.width - size) / 2;
+        const offsetY = (img.height - size) / 2;
+
+        canvas.width = 256;
+        canvas.height = 256;
+        ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, 256, 256);
+
+        canvas.toBlob(callback, 'image/jpeg');
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const sendFile = async (file) => {
     if (image) {
-      let formData = new FormData();
-      formData.append("file", selectedFile);
-      let res = await axios({
-        method: "post",
-        url: process.env.REACT_APP_API_URL,
-        data: formData,
+      cropAndResizeImage(file, async (croppedFile) => {
+        let formData = new FormData();
+        formData.append("file", croppedFile);
+        let res = await axios({
+          method: "post",
+          url: process.env.REACT_APP_API_URL,
+          data: formData,
+        });
+        if (res.status === 200) {
+          setData(res.data);
+        }
       });
-      if (res.status === 200) {
-        setData(res.data);
-      }
     }
-  }
+  };
 
   useEffect(() => {
     if (!selectedFile) {
@@ -158,11 +183,11 @@ const ImageUpload = () => {
   }, [selectedFile]);
 
   useEffect(() => {
-    if (!preview) {
+    if (!selectedFile) {
       return;
     }
-    sendFile();
-  }, [preview]);
+    sendFile(selectedFile);
+  }, [selectedFile]);
 
   const onSelectFile = (files) => {
     if (!files || files.length === 0) {
@@ -213,7 +238,7 @@ const ImageUpload = () => {
                 <CardMedia
                   className={classes.media}
                   image={preview}
-                  component="image"
+                  component="img"
                   title="Image of a potato plant leaf"
                 />
               </CardActionArea>
@@ -244,9 +269,8 @@ const ImageUpload = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                {/* Check new button */}
                 <Button variant="contained" color="primary" className={classes.uploadButton} onClick={handleCheckNew}>
-                  Check new
+                  Check New
                 </Button>
               </CardContent>}
             </Card>
@@ -256,4 +280,3 @@ const ImageUpload = () => {
     </React.Fragment>
   );
 };
-
