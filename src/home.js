@@ -192,7 +192,7 @@ const ImageUpload = () => {
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            Potato Disease Classification
+            Pest Detection in Agriculture
           </Typography>
           <div className={classes.grow} />
           <Avatar src={cblogo}></Avatar>
