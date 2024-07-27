@@ -10,7 +10,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import { Paper, CardActionArea, CardMedia, Grid, TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from "@material-ui/core";
-import cblogo from "./cblogo.png";
+import cblogo from "./logo.jpg";
 import image from "./bg.png";
 import { DropzoneArea } from 'material-ui-dropzone';
 import axios from "axios";
