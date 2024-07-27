@@ -1,0 +1,51 @@
+{
+  "name": "Agriculture Pest Detection",
+  "short_name": "PestDetect",
+  "description": "A web app for detecting pests in agricultural crops using image analysis.",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#4CAF50",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Scan Crop",
+      "short_name": "Scan",
+      "description": "Scan a new crop image for pest detection",
+      "url": "/scan",
+      "icons": [
+        {
+          "src": "/icons/scan-icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "View Reports",
+      "short_name": "Reports",
+      "description": "View past pest detection reports",
+      "url": "/reports",
+      "icons": [
+        {
+          "src": "/icons/reports-icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
