@@ -1,6 +1,6 @@
 {
-  "name": "Plant Infection Detection using Deep Learning",
-  "short_name": "PestDetect",
+  "name": "Plant Infection Detection",
+  "short_name": "Plant InfectDetect",
   "description": "A web app for detecting pests in agricultural crops using image analysis.",
   "icons": [
     {
