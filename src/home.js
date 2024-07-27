@@ -217,7 +217,7 @@ const ImageUpload = () => {
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            Plant Infection Detection using Deep Learning
+            Plant Infection Detection
           </Typography>
           <div className={classes.grow} />
           <Avatar src={cblogo}></Avatar>
