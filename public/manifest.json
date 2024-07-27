@@ -1,6 +1,6 @@
 {
   "name": "Plant Infection Detection",
-  "short_name": "Plant InfectDetect",
+  "short_name": "Plant-Infect-Detect",
   "description": "A web app for detecting pests in agricultural crops using image analysis.",
   "icons": [
     {
