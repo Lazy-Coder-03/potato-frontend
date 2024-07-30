@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   imageCard: {
     margin: "auto",
     maxWidth: 400,
-    height: 600,
+    height: 650,
     backgroundColor: 'rgba(255, 255, 255, 0.7)', // Semi-transparent white
     boxShadow: '0px 9px 70px 0px rgb(0 0 0 / 30%) !important',
     borderRadius: '15px',
