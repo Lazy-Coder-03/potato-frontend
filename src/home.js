@@ -11,7 +11,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import { Paper, CardActionArea, CardMedia, Grid, TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from "@material-ui/core";
 import cblogo from "./logo.jpg";
-import image from "./bg1.jpg";
+import image from "./bg1.png";
 import { DropzoneArea } from 'material-ui-dropzone';
 import axios from "axios";
 
