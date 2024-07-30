@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
   },
   uploadButton: {
     width: "100%",
-    borderRadius: "15px",
-    padding: "15px 22px",
+    borderRadius: "1rem", // 16px in rem
+    padding: "1rem 1.25rem", // 16px 22px in rem
     color: "white",
-    fontSize: "20px",
+    fontSize: "1.25rem", // 20px in rem
     fontWeight: 900,
     backgroundColor: "#4caf50", // Green color
     '&:hover': {
@@ -34,16 +34,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   root: {
-    maxWidth: 345,
+    maxWidth: "25rem", // 400px in rem
     flexGrow: 1,
   },
   media: {
-    height: 400,
+    height: "25rem", // 400px in rem
   },
   paper: {
     padding: theme.spacing(2),
     margin: 'auto',
-    maxWidth: 500,
+    maxWidth: "32rem", // 512px in rem
   },
   gridContainer: {
     justifyContent: "center",
@@ -55,15 +55,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     height: "93vh",
-    marginTop: "8px",
+    marginTop: "0.5rem", // 8px in rem
   },
   imageCard: {
     margin: "auto",
-    maxWidth: 400,
-    height: 650,
+    maxWidth: "25rem", // 400px in rem
+    height: "37.5rem", // 600px in rem
     backgroundColor: 'rgba(255, 255, 255, 0.7)', // Semi-transparent white
-    boxShadow: '0px 9px 70px 0px rgb(0 0 0 / 30%) !important',
-    borderRadius: '15px',
+    boxShadow: '0px 0.5rem 4.5rem 0px rgb(0 0 0 / 30%) !important', // 8px 70px in rem
+    borderRadius: '1rem', // 16px in rem
     overflow: 'hidden',
     transition: 'transform 0.3s ease',
     '&:hover': {
@@ -75,8 +75,8 @@ const useStyles = makeStyles((theme) => ({
   },
   noImage: {
     margin: "auto",
-    width: 400,
-    height: "400 !important",
+    width: "25rem", // 400px in rem
+    height: "25rem !important", // 400px in rem
   },
   input: {
     display: 'none',
@@ -98,20 +98,26 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent !important',
   },
   tableCell: {
-    fontSize: '22px',
+    fontSize: '1.2rem', // 18px in rem
     backgroundColor: 'transparent !important',
     borderColor: 'transparent !important',
     color: '#000000a6 !important',
     fontWeight: 'bolder',
-    padding: '1px 24px 1px 16px',
+    padding: '0.5rem 1rem',
+    whiteSpace: 'nowrap', // Prevents wrapping
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   tableCell1: {
-    fontSize: '14px',
+    fontSize: '1rem', // 14px in rem
     backgroundColor: 'transparent !important',
     borderColor: 'transparent !important',
     color: '#000000a6 !important',
     fontWeight: 'bolder',
-    padding: '1px 24px 1px 16px',
+    padding: '0.5rem 1rem',
+    whiteSpace: 'nowrap', // Prevents wrapping
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   tableBody: {
     backgroundColor: 'transparent !important',
@@ -121,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   buttonGrid: {
-    maxWidth: "416px",
+    maxWidth: "26rem", // 416px in rem
     width: "100%",
   },
   detail: {
@@ -130,15 +136,16 @@ const useStyles = makeStyles((theme) => ({
   appbar: {
     background: 'linear-gradient(90deg, #8B7AF5, #FFB74D)', // lavender to light pinkish orange gradient
     boxShadow: 'none',
-    color: 'white'
+    color: 'white',
   },
   spinner: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100px',
+    height: '6.25rem', // 100px in rem
   },
 }));
+
 
 const ImageUpload = () => {
   const classes = useStyles();
@@ -252,54 +259,56 @@ const ImageUpload = () => {
         >
           <Grid item xs={12}>
             <Card className={`${classes.imageCard} ${!image ? classes.imageCardEmpty : ''}`}>
-              {image && <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image={preview}
-                  component="img"
-                  title="Image of a potato plant leaf"
-                />
-              </CardActionArea>
-              }
-              {!image && <CardContent className={classes.content}>
-                <DropzoneArea
-                  acceptedFiles={['image/*']}
-                  dropzoneText={"Drag and drop an image of a potato plant leaf to process"}
-                  onChange={onSelectFile}
-                />
-              </CardContent>}
-              {loading && !data && <CardContent className={classes.spinner}>
-                <CircularProgress />
-              </CardContent>}
-              {data && !loading && <CardContent className={classes.detail}>
-                <TableContainer className={classes.tableContainer} component={Paper}>
-                  <Table className={classes.table} size="small" aria-label="a dense table">
-                    <TableHead className={classes.tableHead}>
-                      <TableRow className={classes.tableRow}>
-                        <TableCell className={classes.tableCell1}>Label:</TableCell>
-                        <TableCell className={classes.tableCell1}>Confidence:</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody className={classes.tableBody}>
-                      <TableRow className={classes.tableRow}>
-                        <TableCell className={classes.tableCell}>{data.class}</TableCell>
-                        <TableCell className={classes.tableCell}>{confidence}%</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </CardContent>}
-              {data && !loading && <CardContent>
-                <Grid container direction="row" justifyContent="center" alignItems="center">
-                  <Button
-                    variant="contained"
-                    className={classes.uploadButton}
-                    onClick={handleCheckNew}
-                  >
-                    Check New
-                  </Button>
-                </Grid>
-              </CardContent>}
+              <CardContent>
+                {!image && (
+                  <DropzoneArea
+                    acceptedFiles={['image/*']}
+                    dropzoneText="Drag and drop an image here or click"
+                    onChange={onSelectFile}
+                  />
+                )}
+                {image && (
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={preview}
+                      component="img"
+                      title="Image of a potato plant leaf"
+                    />
+                  </CardActionArea>
+                )}
+                {loading && <div className={classes.spinner}><CircularProgress /></div>}
+                {data && (
+                  <React.Fragment>
+                    <TableContainer className={classes.tableContainer} component={Paper}>
+                      <Table className={classes.table}>
+                        <TableHead className={classes.tableHead}>
+                          <TableRow className={classes.tableRow}>
+                            <TableCell className={classes.tableCell}>Prediction</TableCell>
+                            <TableCell className={classes.tableCell}>Confidence</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody className={classes.tableBody}>
+                          <TableRow className={classes.tableRow}>
+                            <TableCell className={classes.tableCell1}>{data.class}</TableCell>
+                            <TableCell className={classes.tableCell1}>{confidence} %</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <Grid item xs={12}>
+                      <Button
+                        className={classes.uploadButton}
+                        variant="contained"
+                        color="primary"
+                        onClick={handleCheckNew}
+                      >
+                        Check New
+                      </Button>
+                    </Grid>
+                  </React.Fragment>
+                )}
+              </CardContent>
             </Card>
           </Grid>
         </Grid>
