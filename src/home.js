@@ -9,7 +9,7 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import { Paper, CardActionArea, CardMedia, Grid, TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from "@material-ui/core";
+import { Paper, CardActionArea, CardMedia, Grid, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, CircularProgress } from "@material-ui/core";
 import cblogo from "./logo.jpg";
 import image from "./bg1.png";
 import { DropzoneArea } from 'material-ui-dropzone';
@@ -22,12 +22,16 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   uploadButton: {
-    width: "-webkit-fill-available",
+    width: "100%",
     borderRadius: "15px",
     padding: "15px 22px",
     color: "white",
     fontSize: "20px",
     fontWeight: 900,
+    backgroundColor: "#4caf50", // Green color
+    '&:hover': {
+      backgroundColor: "#388e3c", // Darker green on hover
+    },
   },
   root: {
     maxWidth: 345,
@@ -43,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridContainer: {
     justifyContent: "center",
-    padding: "4em 1em 0 1em",
+    padding: "2rem 1rem 0 1rem",
   },
   mainContainer: {
     backgroundImage: `url(${image})`,
@@ -57,9 +61,14 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     maxWidth: 400,
     height: 600,
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)', // Semi-transparent white
     boxShadow: '0px 9px 70px 0px rgb(0 0 0 / 30%) !important',
     borderRadius: '15px',
+    overflow: 'hidden',
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+      transform: 'scale(1.02)',
+    },
   },
   imageCardEmpty: {
     height: 'auto',
@@ -123,6 +132,12 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
     color: 'white'
   },
+  spinner: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100px',
+  },
 }));
 
 const ImageUpload = () => {
@@ -131,6 +146,7 @@ const ImageUpload = () => {
   const [preview, setPreview] = useState();
   const [data, setData] = useState();
   const [image, setImage] = useState(false);
+  const [loading, setLoading] = useState(false); // Added state for loading
   let confidence = 0;
 
   const cropAndResizeImage = (file, callback) => {
@@ -158,6 +174,7 @@ const ImageUpload = () => {
 
   const sendFile = async (file) => {
     if (image) {
+      setLoading(true); // Start loading
       cropAndResizeImage(file, async (croppedFile) => {
         let formData = new FormData();
         formData.append("file", croppedFile);
@@ -169,6 +186,7 @@ const ImageUpload = () => {
         if (res.status === 200) {
           setData(res.data);
         }
+        setLoading(false); // Stop loading
       });
     }
   };
@@ -250,28 +268,37 @@ const ImageUpload = () => {
                   onChange={onSelectFile}
                 />
               </CardContent>}
-              {data && <CardContent className={classes.detail}>
-                <TableContainer component={Paper} className={classes.tableContainer}>
-                  <Table className={classes.table} size="small" aria-label="simple table">
+              {loading && !data && <CardContent className={classes.spinner}>
+                <CircularProgress />
+              </CardContent>}
+              {data && !loading && <CardContent className={classes.detail}>
+                <TableContainer className={classes.tableContainer} component={Paper}>
+                  <Table className={classes.table} size="small" aria-label="a dense table">
                     <TableHead className={classes.tableHead}>
                       <TableRow className={classes.tableRow}>
                         <TableCell className={classes.tableCell1}>Label:</TableCell>
-                        <TableCell align="right" className={classes.tableCell1}>Confidence:</TableCell>
+                        <TableCell className={classes.tableCell1}>Confidence:</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody className={classes.tableBody}>
                       <TableRow className={classes.tableRow}>
-                        <TableCell component="th" scope="row" className={classes.tableCell}>
-                          {data.class}
-                        </TableCell>
-                        <TableCell align="right" className={classes.tableCell}>{confidence}%</TableCell>
+                        <TableCell className={classes.tableCell}>{data.class}</TableCell>
+                        <TableCell className={classes.tableCell}>{confidence}%</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <Button variant="contained" color="primary" className={classes.uploadButton} onClick={handleCheckNew}>
-                  Check New
-                </Button>
+              </CardContent>}
+              {data && !loading && <CardContent>
+                <Grid container direction="row" justifyContent="center" alignItems="center">
+                  <Button
+                    variant="contained"
+                    className={classes.uploadButton}
+                    onClick={handleCheckNew}
+                  >
+                    Check New
+                  </Button>
+                </Grid>
               </CardContent>}
             </Card>
           </Grid>
